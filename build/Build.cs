@@ -19,7 +19,11 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
-[GitHubActions("pack", GitHubActionsImage.UbuntuLatest)]
+[GitHubActions(
+    "pack", 
+    GitHubActionsImage.UbuntuLatest, 
+    OnPushBranches = new[] {"master"},
+    OnPullRequestBranches = new[] {"master"})]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -28,7 +32,7 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main ()
+    public static int Main()
     {
         Console.OutputEncoding = Encoding.UTF8;
         return Execute<Build>(x => x.Pack);
