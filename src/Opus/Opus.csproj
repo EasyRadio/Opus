@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,6 +10,8 @@
     <RepositoryUrl>https://github.com/EasyRadio/Opus</RepositoryUrl>
     <PackageProjectUrl>https://github.com/EasyRadio/Opus</PackageProjectUrl>
     <Description>Dotnet OPUS bindings</Description>
+    <AssemblyName>EasyRadio.Opus</AssemblyName>
+    <RootNamespace>EasyRadio.Opus</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
