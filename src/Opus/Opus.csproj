@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -12,6 +12,8 @@
     <Description>Dotnet OPUS bindings</Description>
     <AssemblyName>EasyRadio.Opus</AssemblyName>
     <RootNamespace>EasyRadio.Opus</RootNamespace>
+    <Authors>Roman Buldygin, Artem Yamshanov</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
