@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>EasyRadio.Opus</PackageId>
+    <Version>0.1.0</Version>
+    <Company>EasyRadio</Company>
+    <PackageTags>opus</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/EasyRadio/Opus</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/EasyRadio/Opus</PackageProjectUrl>
+    <Description>Dotnet OPUS bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>
