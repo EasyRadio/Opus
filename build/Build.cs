@@ -28,7 +28,7 @@ class Build : NukeBuild
     public static int Main ()
     {
         Console.OutputEncoding = Encoding.UTF8;
-        return Execute<Build>(x => x.Compile);
+        return Execute<Build>(x => x.Pack);
     }
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
@@ -60,13 +60,18 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DotNetBuild(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
-                .EnableNoRestore());
+            DotNetBuild(s =>
+            {
+                s = s
+                    .SetProjectFile(Solution)
+                    .SetConfiguration(Configuration)
+                    .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                    .SetFileVersion(GitVersion.AssemblySemFileVer)
+                    .SetInformationalVersion(GitVersion.InformationalVersion)
+                    .EnableNoRestore();
+
+                return s;
+            });
         });
 
     Target Pack => _ => _
@@ -76,12 +81,9 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetProject(Solution)
                 .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
                 .EnableNoBuild()
-                .EnableNoRestore()
                 .EnableIncludeSymbols()
-                .SetOutputDirectory(OutputDirectory));
+                .SetOutputDirectory(OutputDirectory)
+                .SetVersion(GitVersion.NuGetVersionV2));
         });
 }
