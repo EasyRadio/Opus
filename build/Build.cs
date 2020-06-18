@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
@@ -24,7 +25,11 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main ()
+    {
+        Console.OutputEncoding = Encoding.UTF8;
+        return Execute<Build>(x => x.Compile);
+    }
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -64,4 +69,19 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
 
+    Target Pack => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetPack(s => s
+                .SetProject(Solution)
+                .SetConfiguration(Configuration)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .EnableNoBuild()
+                .EnableNoRestore()
+                .EnableIncludeSymbols()
+                .SetOutputDirectory(OutputDirectory));
+        });
 }
