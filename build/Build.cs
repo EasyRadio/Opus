@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Text;
 using Nuke.Common;
+using Nuke.Common.CI;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -17,6 +19,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
+[GitHubActions("pack", GitHubActionsImage.UbuntuLatest)]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -76,6 +79,7 @@ class Build : NukeBuild
 
     Target Pack => _ => _
         .DependsOn(Compile)
+        .Produces(OutputDirectory / "*.nupkg")
         .Executes(() =>
         {
             DotNetPack(s => s
